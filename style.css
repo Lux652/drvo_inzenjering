@@ -1,0 +1,255 @@
+@layer reset, base, layout, motion;
+
+@layer reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  :where(body, h1, p, address) {
+    margin: 0;
+  }
+
+  address {
+    font-style: normal;
+  }
+}
+
+@layer base {
+  :root {
+    --paper: #f7f6f2;
+    --ink: #3e2615;
+    --text: #6e5a47;
+    --accent: #a9672b;
+    --amber: #e3a04a;
+    --easeOut: cubic-bezier(0.22, 1, 0.36, 1);
+    --fontDisplay: "Sora", system-ui, sans-serif;
+    --fontText: "DM Sans", system-ui, sans-serif;
+
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  body {
+    min-block-size: 100dvh;
+    display: grid;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--fontText);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--amber) 70%, transparent);
+    text-decoration-thickness: 0.12em;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color 0.2s;
+
+    &:hover {
+      text-decoration-color: var(--amber);
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--accent);
+      outline-offset: 0.2em;
+      border-radius: 0.1em;
+    }
+  }
+}
+
+@layer layout {
+  .page {
+    container-type: inline-size;
+    display: grid;
+    place-items: center;
+    padding-block: clamp(2rem, 8vw, 5rem);
+    padding-inline: clamp(1.25rem, 6vw, 4rem);
+  }
+
+  .layout {
+    inline-size: min(100%, 68rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 6cqi, 5rem);
+  }
+
+  .beamSvg {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    overflow: visible;
+  }
+
+  .companyName {
+    line-height: 1;
+    font-family: var(--fontDisplay);
+  }
+
+  .companyTitle {
+    display: block;
+    font-size: clamp(3rem, 9cqi, 5.5rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .companySubtitle {
+    display: block;
+    margin-block-start: 0.9em;
+    font-size: clamp(0.8rem, 2.5cqi, 1.35rem);
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--accent);
+
+    & small {
+      margin-inline-start: 0.5em;
+      font-size: 0.72em;
+      letter-spacing: 0.08em;
+      text-transform: none;
+    }
+  }
+
+  .accentBar {
+    display: block;
+    inline-size: 3rem;
+    block-size: 0.1875rem;
+    margin-block: 1.75rem 1.5rem;
+    background: var(--amber);
+    transform-origin: left;
+  }
+
+  .tagline {
+    max-inline-size: 30ch;
+    font-size: clamp(0.95rem, 2cqi, 1.1rem);
+    font-weight: 500;
+    line-height: 1.55;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+
+  .contactDetails {
+    display: grid;
+    gap: 0.35rem;
+    margin-block-start: 2rem;
+    font-size: 0.9375rem;
+    text-wrap: pretty;
+
+    &::before {
+      content: "";
+      inline-size: 100%;
+      block-size: thin;
+      margin-block-end: 1.15rem;
+      background: color-mix(in srgb, var(--text) 30%, transparent);
+      transform-origin: left;
+      animation: wipeIn 0.6s var(--easeOut) 2.8s both;
+    }
+  }
+
+  @container (width < 52rem) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: start;
+      gap: 2.5rem;
+    }
+
+    .beam {
+      inline-size: min(100%, 26rem);
+      margin-block-start: 1.5rem;
+    }
+
+    .companyTitle {
+      font-size: clamp(3rem, 17cqi, 4.5rem);
+    }
+
+    .companySubtitle {
+      font-size: clamp(0.75rem, 3.6cqi, 1.1rem);
+    }
+  }
+
+  @container (width < 24rem) {
+    .companySubtitle {
+      letter-spacing: 0.22em;
+    }
+  }
+}
+
+@layer motion {
+  .lamination {
+    animation: dropIn 0.85s cubic-bezier(0.3, 1.25, 0.5, 1) both;
+  }
+
+  .topFace {
+    animation: growIn 0.8s var(--easeOut) 1.7s both;
+  }
+
+  .meshCell {
+    stroke: #10203f;
+    stroke-width: 0.45;
+    stroke-linejoin: round;
+    fill-opacity: 0.9;
+    stroke-opacity: 0.5;
+    animation:
+      meshIn 0.45s linear var(--meshDelay) backwards,
+      heatIn 0.6s ease-out var(--heatDelay) backwards;
+  }
+
+  :where(.companyTitle, .companySubtitle, .tagline, .contactDetails span) {
+    animation: slideIn 0.7s var(--easeOut) both;
+  }
+
+  .accentBar {
+    animation: wipeIn 0.6s var(--easeOut) 2.4s both;
+  }
+
+  .companyTitle { animation-delay: 1.9s; }
+  .companySubtitle { animation-delay: 2.1s; }
+  .tagline { animation-delay: 2.6s; }
+
+  .contactDetails {
+    & span:nth-child(1) { animation-delay: 2.9s; }
+    & span:nth-child(2) { animation-delay: 3s; }
+    & span:nth-child(3) { animation-delay: 3.1s; }
+  }
+
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-95px); }
+    25% { opacity: 1; }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes growIn {
+    from { opacity: 0; transform: translate(-10px, 8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes meshIn {
+    from { stroke-opacity: 0; }
+  }
+
+  @keyframes heatIn {
+    from { fill-opacity: 0; }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-1.6rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes wipeIn {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+}
