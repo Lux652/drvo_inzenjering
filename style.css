@@ -1,3 +1,39 @@
+@font-face {
+  font-family: "Arimo";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("fonts/arimo-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Arimo";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("fonts/arimo-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "Arimo";
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("fonts/arimo-latin-ext-700-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Arimo";
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("fonts/arimo-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
 @layer reset, base, layout, motion;
 
 @layer reset {
@@ -5,7 +41,7 @@
     box-sizing: border-box;
   }
 
-  :where(body, h1, p, address) {
+  :where(body, h1, p, address, hr) {
     margin: 0;
   }
 
@@ -16,14 +52,13 @@
 
 @layer base {
   :root {
-    --paper: #f7f6f2;
+    --paper: #ffffff;
     --ink: #3e2615;
-    --text: #6e5a47;
+    --text: #7a6652;
     --accent: #a9672b;
     --amber: #e3a04a;
     --easeOut: cubic-bezier(0.22, 1, 0.36, 1);
-    --fontDisplay: "Sora", system-ui, sans-serif;
-    --fontText: "DM Sans", system-ui, sans-serif;
+    --font: "Arimo", "Helvetica Neue", Arial, sans-serif;
 
     color-scheme: light;
   }
@@ -36,32 +71,29 @@
   body {
     min-block-size: 100dvh;
     display: grid;
+    place-items: center;
+    padding-block: clamp(2rem, 8vw, 5rem);
+    padding-inline: 0;
     background: var(--paper);
     color: var(--text);
-    font-family: var(--fontText);
+    font-family: var(--font);
     font-size: 1rem;
-    line-height: 1.6;
-    font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
   }
 
   a {
-    color: var(--ink);
-    text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--amber) 70%, transparent);
-    text-decoration-thickness: 0.12em;
-    text-underline-offset: 0.25em;
-    transition: text-decoration-color 0.2s;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
 
     &:hover {
-      text-decoration-color: var(--amber);
+      color: var(--accent);
     }
 
     &:focus-visible {
       outline: 0.125rem solid var(--accent);
       outline-offset: 0.2em;
-      border-radius: 0.1em;
     }
   }
 }
@@ -69,119 +101,181 @@
 @layer layout {
   .page {
     container-type: inline-size;
-    display: grid;
-    place-items: center;
-    padding-block: clamp(2rem, 8vw, 5rem);
-    padding-inline: clamp(1.25rem, 6vw, 4rem);
+    inline-size: min(100%, calc(100dvh * 872 / 278));
   }
 
-  .layout {
-    inline-size: min(100%, 68rem);
+  .logoStage {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(2rem, 6cqi, 5rem);
+    gap: 2.5rem;
   }
 
-  .beamSvg {
+  .logoStage > * {
+    --u: calc(100cqw / 872);
+  }
+
+  .beamSvg,
+  .drawing {
     display: block;
-    inline-size: 100%;
-    block-size: auto;
     overflow: visible;
   }
 
-  .companyName {
-    line-height: 1;
-    font-family: var(--fontDisplay);
+  .beam {
+    inline-size: min(100%, 26rem);
+  }
+
+  .beamSvg {
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  .companyInfo {
+    --u: min(calc(100cqw / 400), 0.0875rem);
+    position: relative;
+    isolation: isolate;
+    white-space: nowrap;
+  }
+
+  .drawing {
+    position: absolute;
+    inset-inline-start: calc(54 * var(--u));
+    inset-block-start: calc(-65.452 * var(--u));
+    inline-size: calc(320 * var(--u));
+    block-size: calc(286 * var(--u));
+    z-index: -1;
+    pointer-events: none;
+
+    & text {
+      font-family: var(--font);
+    }
   }
 
   .companyTitle {
     display: block;
-    font-size: clamp(3rem, 9cqi, 5.5rem);
+    font-size: calc(29 * var(--u));
     font-weight: 800;
-    letter-spacing: 0.04em;
+    line-height: calc(29 * var(--u));
+    letter-spacing: calc(2 * var(--u));
     text-transform: uppercase;
     color: var(--ink);
   }
 
   .companySubtitle {
     display: block;
-    margin-block-start: 0.9em;
-    font-size: clamp(0.8rem, 2.5cqi, 1.35rem);
-    font-weight: 500;
-    letter-spacing: 0.34em;
+    margin-block-start: calc(9.000 * var(--u));
+    font-size: calc(29 * var(--u));
+    font-weight: 600;
+    line-height: calc(29 * var(--u));
+    letter-spacing: calc(9.5 * var(--u));
     text-transform: uppercase;
-    white-space: nowrap;
     color: var(--accent);
+    padding-inline-start: calc(2 * var(--u));
 
     & small {
-      margin-inline-start: 0.5em;
-      font-size: 0.72em;
-      letter-spacing: 0.08em;
+      line-height: 0;
       text-transform: none;
+      margin-inline-start: calc(2 * var(--u));
+      font-size: calc(19 * var(--u));
+      letter-spacing: calc(1 * var(--u));
     }
   }
 
   .accentBar {
     display: block;
-    inline-size: 3rem;
-    block-size: 0.1875rem;
-    margin-block: 1.75rem 1.5rem;
+    inline-size: calc(44 * var(--u));
+    block-size: calc(3 * var(--u));
+    margin-block-start: calc(9.549 * var(--u));
+    margin-inline-start: calc(2 * var(--u));
     background: var(--amber);
     transform-origin: left;
   }
 
   .tagline {
-    max-inline-size: 30ch;
-    font-size: clamp(0.95rem, 2cqi, 1.1rem);
+    margin-block-start: calc(4.669 * var(--u));
+    margin-inline-start: calc(2 * var(--u));
+    font-size: calc(12.5 * var(--u));
     font-weight: 500;
-    line-height: 1.55;
-    text-wrap: balance;
-    color: var(--ink);
+    line-height: calc(18 * var(--u));
+    letter-spacing: calc(1.2 * var(--u));
+    text-transform: uppercase;
+  }
+
+  .divider {
+    inline-size: calc(150 * var(--u));
+    block-size: calc(1 * var(--u));
+    margin-block: calc(8.331 * var(--u)) 0;
+    margin-inline-start: calc(2 * var(--u));
+    border: 0;
+    background: var(--text);
+    opacity: 0.4;
+    transform-origin: left;
   }
 
   .contactDetails {
-    display: grid;
-    gap: 0.35rem;
-    margin-block-start: 2rem;
-    font-size: 0.9375rem;
-    text-wrap: pretty;
+    margin-block-start: calc(4.515 * var(--u));
+    margin-inline-start: calc(2 * var(--u));
+    font-size: calc(11.5 * var(--u));
+    font-weight: 400;
+    line-height: calc(17 * var(--u));
+    letter-spacing: calc(0.3 * var(--u));
 
-    &::before {
-      content: "";
-      inline-size: 100%;
-      block-size: thin;
-      margin-block-end: 1.15rem;
-      background: color-mix(in srgb, var(--text) 30%, transparent);
-      transform-origin: left;
-      animation: wipeIn 0.6s var(--easeOut) 2.8s both;
+    & span {
+      display: block;
     }
   }
 
-  @container (width < 52rem) {
-    .layout {
-      grid-template-columns: minmax(0, 1fr);
-      justify-items: start;
-      gap: 2.5rem;
+  @container (width >= 50rem) {
+    .logoStage {
+      display: block;
+      position: relative;
+      aspect-ratio: 872 / 278;
     }
 
     .beam {
-      inline-size: min(100%, 26rem);
-      margin-block-start: 1.5rem;
+      position: absolute;
+      inset-inline-start: calc(26 * var(--u));
+      inset-block-start: calc(73 * var(--u));
+      inline-size: calc(400 * var(--u));
     }
 
-    .companyTitle {
-      font-size: clamp(3rem, 17cqi, 4.5rem);
-    }
-
-    .companySubtitle {
-      font-size: clamp(0.75rem, 3.6cqi, 1.1rem);
+    .companyInfo {
+      --u: calc(100cqw / 872);
+      position: absolute;
+      inset-inline-start: calc(462 * var(--u));
+      inset-block-start: calc(60.452 * var(--u));
     }
   }
 
-  @container (width < 24rem) {
-    .companySubtitle {
-      letter-spacing: 0.22em;
+  @container (width < 50rem) {
+    .logoStage {
+      gap: 3.5rem;
+      padding-inline: 1.25rem;
+    }
+
+    .companyInfo {
+      --u: min(calc((100cqw - 2.5rem) / 400), 0.0875rem);
+      margin-block-start: calc(65 * var(--u));
+    }
+
+    .companyInfo :where(.tagline, .contactDetails) {
+      font-size: max(0.8125rem, calc(12.5 * var(--u)));
+      line-height: 1.65;
+      letter-spacing: 0.04em;
+    }
+
+    .accentBar {
+      margin-block-start: calc(16 * var(--u));
+    }
+
+    .tagline {
+      margin-block-start: calc(14 * var(--u));
+    }
+
+    .divider {
+      margin-block-start: calc(18 * var(--u));
+    }
+
+    .contactDetails {
+      margin-block-start: calc(14 * var(--u));
     }
   }
 }
@@ -210,18 +304,24 @@
     animation: slideIn 0.7s var(--easeOut) both;
   }
 
-  .accentBar {
-    animation: wipeIn 0.6s var(--easeOut) 2.4s both;
+  .drawing {
+    animation: fadeIn 1.2s ease-out 1.6s both;
+  }
+
+  :where(.accentBar, .divider) {
+    animation: wipeIn 0.6s var(--easeOut) both;
   }
 
   .companyTitle { animation-delay: 1.9s; }
   .companySubtitle { animation-delay: 2.1s; }
+  .accentBar { animation-delay: 2.4s; }
   .tagline { animation-delay: 2.6s; }
+  .divider { animation-delay: 2.9s; }
 
   .contactDetails {
-    & span:nth-child(1) { animation-delay: 2.9s; }
-    & span:nth-child(2) { animation-delay: 3s; }
-    & span:nth-child(3) { animation-delay: 3.1s; }
+    & span:nth-child(1) { animation-delay: 3s; }
+    & span:nth-child(2) { animation-delay: 3.1s; }
+    & span:nth-child(3) { animation-delay: 3.2s; }
   }
 
   @keyframes dropIn {
@@ -244,8 +344,13 @@
   }
 
   @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-1.6rem); }
+    from { opacity: 0; transform: translateX(-26px); }
     to { opacity: 1; transform: none; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   @keyframes wipeIn {
